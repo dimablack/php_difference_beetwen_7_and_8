@@ -4,41 +4,41 @@ services:
 
   # PHP Service
   php:
-    container_name: php_8_2_container
-    image: php_docker_php_nginx_pgsql
+    container_name: php_7_vs_8_container
+    image: php_7_vs_8
     build:
       context: ./
       dockerfile: ./.docker/php/Dockerfile
     volumes:
       - ./:/app
     networks:
-      - docker_php_nginx_pgsql
+      - php_7_vs_8_network
 
   # PostgreSQL Service
-  postgres:
-    image: postgres:15
-    container_name: postgres_15_container
-    ports:
-      - '${FORWARD_DB_PORT:-5432}:5432'
-    environment:
-        PGPASSWORD: '${DB_PASSWORD:-root}'
-        POSTGRES_DB: '${DB_DATABASE:-postgres_db}'
-        POSTGRES_USER: '${DB_USERNAME:-postgres}'
-        POSTGRES_PASSWORD: '${DB_PASSWORD:-root}'
-    volumes:
-      - 'docker_php_nginx_pgsql-vol:/var/lib/postgresql/data'
-      - './.docker/pgsql/create-testing-database.sql:/docker-entrypoint-initdb.d/10-create-testing-database.sql'
-    healthcheck:
-      test: [ "CMD", "pg_isready", "-q", "-d", "${DB_DATABASE}", "-U", "${DB_USERNAME}" ]
-      retries: 3
-      timeout: 5s
-    networks:
-      - docker_php_nginx_pgsql
+#  postgres:
+#    image: postgres:15
+#    container_name: postgres_15_php_7_vs_8_container
+#    ports:
+#      - '${FORWARD_DB_PORT:-5432}:5432'
+#    environment:
+#        PGPASSWORD: '${DB_PASSWORD:-root}'
+#        POSTGRES_DB: '${DB_DATABASE:-postgres_db}'
+#        POSTGRES_USER: '${DB_USERNAME:-postgres}'
+#        POSTGRES_PASSWORD: '${DB_PASSWORD:-root}'
+#    volumes:
+#      - 'php_7_vs_8_vol:/var/lib/postgresql/data'
+#      - './.docker/pgsql/create-testing-database.sql:/docker-entrypoint-initdb.d/10-create-testing-database.sql'
+#    healthcheck:
+#      test: [ "CMD", "pg_isready", "-q", "-d", "${DB_DATABASE}", "-U", "${DB_USERNAME}" ]
+#      retries: 3
+#      timeout: 5s
+#    networks:
+#      - php_7_vs_8_network
 
   # Nginx Service
   nginx:
     image: nginx:latest
-    container_name: nginx_container
+    container_name: nginx_php_7_vs_8container
     volumes:
       - './src:/app/src'
       - './.docker/nginx/default.conf:/etc/nginx/conf.d/default.conf'
@@ -46,14 +46,14 @@ services:
     ports:
       - '${APP_PORT:-80}:80'
     networks:
-      - docker_php_nginx_pgsql
+      - php_7_vs_8_network
     depends_on:
       - php
 
 networks:
-  docker_php_nginx_pgsql:
+  php_7_vs_8_network:
     driver: bridge
 
-volumes:
-  docker_php_nginx_pgsql-vol:
-    driver: local
+#volumes:
+#  php_7_vs_8_vol:
+#    driver: local

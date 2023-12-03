@@ -29,18 +29,18 @@ cp .env.example .env
 docker-compose up -d
 ```
 ---
-    docker exec -it php_8_2_container bash
+    docker exec -it php_7_vs_8_container bash
     composer install
 or
 ```bash
-docker exec php_8_2_container bash -c 'composer install'
+docker exec php_7_vs_8_container bash -c 'composer install'
 ```
 ___
 ___
 ### From the Second Time Onwards:
 ```bash
 docker-compose up -d
-docker exec -it php_8_2_container bash
+docker exec -it php_7_vs_8_container bash
 ```
 ___
 ___
@@ -56,7 +56,7 @@ ___
 ___
 ### Install additional packages:
 ```bash
-docker exec php_8_2_container bash -c 'composer require --dev phpunit/phpunit'
+docker exec php_7_vs_8_container bash -c 'composer require --dev phpunit/phpunit'
 ```
 ___
 ___
@@ -78,10 +78,5 @@ ___
 
 ### php
 ```bash
-docker exec -it php_8_2_container bash
+docker exec -it php_7_vs_8_container bash
 ```
-### pgsql
-```bash
-docker exec -it postgres_15_container bash
-```
-

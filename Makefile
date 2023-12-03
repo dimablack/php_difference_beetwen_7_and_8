@@ -16,10 +16,7 @@ up:	## Run Docker containers in the background
 	docker-compose up -d
 
 exec: ## Open an interactive shell (Bash) inside a running Docker container
-	docker exec -it php_8_2_container bash
-
-exec-pgsql: ## Open an interactive shell (Bash) inside a running Docker container
-	docker exec -it postgres_15_container bash
+	docker exec -it php_7_vs_8_container bash
 
 restart:
 	make stop
